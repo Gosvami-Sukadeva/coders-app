@@ -28,3 +28,21 @@ function showNextQuestion() {
 }
 
 showNextQuestion();
+
+function sendAnswer(answerIndex) {
+  fetch(`/answer/${answerIndex}`, {
+    method: "POST",
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      console.log(data);
+    });
+}
+
+const buttons = document.querySelectorAll("button");
+for (const button of buttons) {
+  button.addEventListener("click", (event) => {
+    const answerIndex = event.target.dataset.answer;
+    sendAnswer(answerIndex);
+  });
+}
