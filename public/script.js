@@ -3,8 +3,15 @@ const answer1 = document.querySelector("#answer1");
 const answer2 = document.querySelector("#answer2");
 const answer3 = document.querySelector("#answer3");
 const answer4 = document.querySelector("#answer4");
+const gameBoard = document.querySelector("#game-board");
+const h2 = document.querySelector("h2");
 
 function fillQuestionElements(data) {
+  if (data.winner === true) {
+    gameBoard.style.display = "none";
+    h2.innerText = "WYGRAŁEŚ/AŚ!!!";
+    return;
+  }
   question.innerText = data.question;
   // answer1.innerText = data.answers[0];
   // answer2.innerText = data.answers[1];
@@ -29,13 +36,20 @@ function showNextQuestion() {
 
 showNextQuestion();
 
+const goodAnswersSpan = document.querySelector("#good-answers");
+
+function handleAnswerFeedback(data) {
+  goodAnswersSpan.innerText = data.goodAnswers;
+  showNextQuestion();
+}
+
 function sendAnswer(answerIndex) {
   fetch(`/answer/${answerIndex}`, {
     method: "POST",
   })
     .then((r) => r.json())
     .then((data) => {
-      console.log(data);
+      handleAnswerFeedback(data);
     });
 }
 
