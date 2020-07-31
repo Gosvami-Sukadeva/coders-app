@@ -69,6 +69,26 @@ function gameRoutes(app) {
       goodAnswers,
     });
   });
+
+  app.get("/help/friend", (req, res) => {
+    if (callToAFriendUsed) {
+      return res.json({
+        text: "To koło ratunkowe było już wykorzystane.",
+      });
+    }
+
+    const doesFriendKnowAnswer = Math.random() < 0.5;
+
+    const question = questions[goodAnswers];
+
+    res.json({
+      text: doesFriendKnowAnswer
+        ? `Hmm, wydaje mi się, że odpowiedź to ${
+            question.answers[question.correctAnswer]
+          }`
+        : "Hmm, no nie wiem...",
+    });
+  });
 }
 
 module.exports = gameRoutes;

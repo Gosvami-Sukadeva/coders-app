@@ -12,6 +12,11 @@ function fillQuestionElements(data) {
     h2.innerText = "WYGRAŁEŚ/AŚ!!!";
     return;
   }
+  if (data.loser === true) {
+    gameBoard.style.display = "none";
+    h2.innerText = "Nie poszło tym razem, spróbuj ponownie.";
+    return;
+  }
   question.innerText = data.question;
   // answer1.innerText = data.answers[0];
   // answer2.innerText = data.answers[1];
@@ -59,4 +64,14 @@ for (const button of buttons) {
     const answerIndex = event.target.dataset.answer;
     sendAnswer(answerIndex);
   });
+}
+
+function callToAFriend() {
+  fetch(`/help/friend`, {
+    method: "GET",
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      console.log(data);
+    });
 }
