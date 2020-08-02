@@ -58,12 +58,18 @@ function sendAnswer(answerIndex) {
     });
 }
 
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll(".answer-btn");
 for (const button of buttons) {
   button.addEventListener("click", (event) => {
     const answerIndex = event.target.dataset.answer;
     sendAnswer(answerIndex);
   });
+}
+
+const tipDiv = document.querySelector("#tip");
+
+function handleFriendsAnswer(data) {
+  tipDiv.innerText = data.text;
 }
 
 function callToAFriend() {
@@ -72,6 +78,34 @@ function callToAFriend() {
   })
     .then((r) => r.json())
     .then((data) => {
-      console.log(data);
+      handleFriendsAnswer(data);
     });
 }
+
+document
+  .querySelector("#callToAFriend")
+  .addEventListener("click", callToAFriend);
+
+function handlehalfOnHalfAnswer(data) {
+  if (typeof data.text === "string") {
+    tipDiv.innerText = data.text;
+  } else {
+    for (const button of buttons) {
+      if (data.answersToRemove.indexOf(button.innerText) > -1) {
+        button.innerText = "";
+      }
+    }
+  }
+}
+
+function halfOnHalf() {
+  fetch(`/help/half`, {
+    method: "GET",
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      handlehalfOnHalfAnswer(data);
+    });
+}
+
+document.querySelector("#halfOnHalf").addEventListener("click", halfOnHalf);
