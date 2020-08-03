@@ -109,3 +109,20 @@ function halfOnHalf() {
 }
 
 document.querySelector("#halfOnHalf").addEventListener("click", halfOnHalf);
+function handleCrowdAnswer(data) {
+  console.log(data);
+}
+
+function questionToTheCrowd() {
+  fetch(`/help/crowd`, {
+    method: "GET",
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      handleCrowdAnswer(data);
+    });
+}
+
+document
+  .querySelector("#questionToTheCrowd")
+  .addEventListener("click", questionToTheCrowd);
