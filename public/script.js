@@ -110,9 +110,14 @@ function halfOnHalf() {
 
 document.querySelector("#halfOnHalf").addEventListener("click", halfOnHalf);
 function handleCrowdAnswer(data) {
-  console.log(data);
+  if (typeof data.text === "string") {
+    tipDiv.innerText = data.text;
+  } else {
+    data.chart.forEach((percent, index) => {
+      buttons[index].innerText = `${buttons[index].innerText}: ${percent}%`;
+    });
+  }
 }
-
 function questionToTheCrowd() {
   fetch(`/help/crowd`, {
     method: "GET",
